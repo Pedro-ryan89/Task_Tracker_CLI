@@ -9,9 +9,9 @@ public class Task {
     private Status status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-
 
     public Task(int id, String description) {
         this.id = id;
@@ -19,6 +19,7 @@ public class Task {
         this.status = Status.TODO;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+        this.deletedAt = null;
     }
 
 
@@ -27,6 +28,8 @@ public class Task {
     public Status getStatus() { return status; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public LocalDateTime getDeletedAt() { return deletedAt; }
+
 
     public void setDescription(String description) {
         this.description = description;
@@ -38,33 +41,44 @@ public class Task {
         this.updatedAt = LocalDateTime.now();
     }
 
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
 
     private static String escapeJson(String s) {
         if (s == null) return "";
-        return s.replace("\\", "\\\\").replace("\"", "\\\"");
+        return s.replace("\\", "\\").replace("\"", "\"");
     }
 
 
     public String toJson() {
-        return "{"
+        String json = "{"
                 + "\"id\": " + id + ", "
                 + "\"description\": \"" + escapeJson(description.strip()) + "\", "
                 + "\"status\": \"" + status.getValue() + "\", "
                 + "\"createdAt\": \"" + createdAt.format(formatter) + "\", "
-                + "\"updatedAt\": \"" + updatedAt.format(formatter) + "\""
-                + "}";
+                + "\"updatedAt\": \"" + updatedAt.format(formatter) + "\"";
+
+        if (deletedAt != null) {
+            json += ", \"deletedAt\": \"" + deletedAt.format(formatter) + "\"";
+        }
+
+        return json + "}";
     }
 
 
     public static Task fromJson(String json) {
-        json = json.replace("{", "").replace("}", "").replace("\"", "");
-        String[] parts = json.split(",");
-
+        json = json.substring(1, json.length() - 1);
         Map<String, String> map = new HashMap<>();
+
+        String[] parts = json.split(",(?=\"[^\"]*\":|[^,]*$)");
+
         for (String part : parts) {
-            String[] keyValue = part.split(":");
-            if (keyValue.length == 2) {
-                map.put(keyValue[0].strip(), keyValue[1].strip());
+            int colonIndex = part.indexOf(':');
+            if (colonIndex != -1) {
+                String key = part.substring(0, colonIndex).replace("\"", "").strip();
+                String value = part.substring(colonIndex + 1).replace("\"", "").strip();
+                map.put(key, value);
             }
         }
 
@@ -75,16 +89,27 @@ public class Task {
         LocalDateTime updatedAt = LocalDateTime.parse(map.get("updatedAt"), formatter);
 
         Task task = new Task(id, description);
-        task.setStatus(status);
+        task.status = status;
         task.createdAt = createdAt;
         task.updatedAt = updatedAt;
+
+        if (map.containsKey("deletedAt")) {
+            task.deletedAt = LocalDateTime.parse(map.get("deletedAt"), formatter);
+        }
 
         return task;
     }
 
+
     @Override
     public String toString() {
-        return "Task #" + id + " [" + status.getValue() + "] " + description
-                + " (created: " + createdAt.format(formatter) + ", updated: " + updatedAt.format(formatter) + ")";
+        String output = "Task #" + id + " [" + status.getValue() + "] " + description
+                + " (created: " + createdAt.format(formatter) + ", updated: " + updatedAt.format(formatter);
+
+        if (deletedAt != null) {
+            output += ", deleted: " + deletedAt.format(formatter);
+        }
+
+        return output + ")";
     }
 }
