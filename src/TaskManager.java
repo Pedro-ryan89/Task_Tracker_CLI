@@ -17,7 +17,7 @@ public class TaskManager {
     private List<Task> deletedTasks;
     private int lastId = 0;
 
-    public TaskManager() {
+        public TaskManager() {
         this.activeTasks = loadTasksFromFile(ACTIVE_TASKS_PATH);
         this.deletedTasks = loadTasksFromFile(DELETED_TASKS_PATH);
 
@@ -68,20 +68,32 @@ public class TaskManager {
             if (content.isEmpty() || content.equals("[]")) {
                 return new ArrayList<>();
             }
-            
+
+            if (content.startsWith("[")) {
+                content = content.substring(1);
+            }
+            if (content.endsWith("]")) {
+                content = content.substring(0, content.length() - 1);
+            }
+            content = content.strip();
+            if (content.isEmpty()) {
+                return new ArrayList<>();
+            }
+
             List<Task> loadedTasks = new ArrayList<>();
             int braceCount = 0;
-            int start = -1;
+            int start = 0;
             for (int i = 0; i < content.length(); i++) {
                 char c = content.charAt(i);
                 if (c == '{') {
-                    if (braceCount == 0) start = i;
+                    if (braceCount == 0) {
+                        start = i;
+                    }
                     braceCount++;
                 } else if (c == '}') {
                     braceCount--;
-                    if (braceCount == 0 && start != -1) {
+                    if (braceCount == 0) {
                         loadedTasks.add(Task.fromJson(content.substring(start, i + 1)));
-                        start = -1;
                     }
                 }
             }

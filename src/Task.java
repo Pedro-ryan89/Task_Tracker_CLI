@@ -1,6 +1,8 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Task {
@@ -68,16 +70,39 @@ public class Task {
 
 
     public static Task fromJson(String json) {
-        json = json.substring(1, json.length() - 1);
+        // This is a slightly more robust manual parser.
+        // It assumes a simple JSON object structure without nested objects or arrays.
         Map<String, String> map = new HashMap<>();
+        json = json.trim();
+        if (json.startsWith("{")) {
+            json = json.substring(1);
+        }
+        if (json.endsWith("}")) {
+            json = json.substring(0, json.length() - 1);
+        }
 
-        String[] parts = json.split(",(?=\"[^\"]*\":|[^,]*$)");
+        List<String> parts = new ArrayList<>();
+        int level = 0;
+        int start = 0;
+        for (int i = 0; i < json.length(); i++) {
+            char c = json.charAt(i);
+            if (c == '"') {
+                level = 1 - level; // Simple quote toggle; doesn't handle escaped quotes
+            } else if (c == ',' && level == 0) {
+                parts.add(json.substring(start, i));
+                start = i + 1;
+            }
+        }
+        parts.add(json.substring(start));
 
         for (String part : parts) {
-            int colonIndex = part.indexOf(':');
-            if (colonIndex != -1) {
-                String key = part.substring(0, colonIndex).replace("\"", "").strip();
-                String value = part.substring(colonIndex + 1).replace("\"", "").strip();
+            String[] keyValue = part.split(":", 2);
+            if (keyValue.length == 2) {
+                String key = keyValue[0].replace("\"", "").strip();
+                String value = keyValue[1].strip();
+                if (value.startsWith("\"") && value.endsWith("\"")) {
+                    value = value.substring(1, value.length() - 1);
+                }
                 map.put(key, value);
             }
         }
