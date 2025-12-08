@@ -10,23 +10,27 @@ This is the easiest way to install and use the Task Tracker CLI.
 
 - [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/downloads/) 8 or higher installed.
 
+- [Maven](https://maven.apache.org/download.cgi) installed.
+
 ### Steps
 
 1. **Download the Package:**
-   - Download the latest `.zip` package from the [Releases page](https://github.com/your-username/Task-Tracker-CLI/releases) (replace with your actual release link).
+   - Download the latest `.zip` package from the [Releases page](https://github.com/Pedro-ryan89/Task_Tracker_CLI/releases).
 
 2. **Extract the Files:**
-   - Unzip the archive to a permanent location on your computer (e.g., `C:\Users\YourUser\Applications\Task-Tracker`).
+   - Unzip the archive to a permanent location on your computer (e.g., `C:\Users\YourUser\Applications\Task_Tracker_CLI`).
 
 3. **Run:**
    - Navigate to the directory you extracted and use `task.bat` to run commands.
    ```bash
-   cd C:\Users\YourUser\Applications\Task-Tracker
-   task add "My first task"
+   cd C:\Users\YourUser\Applications\Task_Tracker_CLI
+
+   ./task
+   ./task add "My first task"
    ```
 
 4. **(Optional) Add to PATH:**
-   - To run `task` from anywhere, add the `Task-Tracker` directory to your system's PATH environment variable.
+   - To run `task` from anywhere, add the `Task_Tracker_CLI` directory to your system's PATH environment variable.
 
 ## For Developers
 
@@ -34,15 +38,36 @@ If you want to modify the source code:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/Task-Tracker-CLI.git
-   cd Task-Tracker-CLI/Task_Tracker
+   git clone https://github.com/Pedro-ryan89/Task_Tracker_CLI.git
+
+   cd Task_Tracker_CLI
    ```
 
 2. **Compile the code:**
    Run the `build.bat` script from the `Task_Tracker` directory to compile the source files:
    ```bash
-   build.bat
+   ./build.bat
    ```
+
+3. **Run Task_Tracker:**
+   Run the `task.bat` for the compile files
+   ```bash
+   ./task.bat
+   ```
+
+4. **Usage for developers:** Add `./` on `task` command, like `./task`
+   ```bash
+   ./task
+   ```
+
+   ```bash
+   ./task add "Buy milk"
+   ```
+
+   ```bash
+   ./task list
+   ```
+   ...
 
 ## Usage
 
