@@ -1,109 +1,110 @@
 # Task Tracker CLI
 
-A simple command-line task tracker to manage your to-dos.
+Task Tracker CLI é uma ferramenta simples de linha de comando para gerenciar suas tarefas, com suporte a **tarefas ativas**, **tarefas concluídas**, **lixeira** e funcionalidades de manutenção automática.
 
-## Installation Guide (For Users)
+---
 
-This is the easiest way to install and use the Task Tracker CLI.
+## Índice
 
-### Prerequisites
+- [Recursos](#recursos)
+- [Pré-requisitos](#pré-requisitos)
+- [Instalação](#instalação)
+  - [Linux / macOS](#linux--macos)
+  - [Windows](#windows)
+- [uso basico](#uso-basico)
+- [Para Desenvolvedores](#para-desenvolvedores)
+- [Notas de Implementação](#notas-de-implementação)
 
-- [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/downloads/) 8 or higher installed.
+---
 
-- [Maven](https://maven.apache.org/download.cgi) installed.
+## Recursos
 
-### Steps
+- Adicionar, listar, atualizar, concluir e deletar tarefas.  
+- Suporte à **lixeira**, com opção de esvaziar permanentemente.  
+- IDs automáticos para tarefas.  
+- Persistência em arquivos JSON (`tasks.json` e `deleted_tasks.json`).  
+- Limpeza automática de tarefas **DONE** após 24h e exclusão definitiva da lixeira após 7 dias.  
+- Funciona em **Windows e Linux**.
 
-1. **Download the Package:**
-   - Download the latest `.zip` package from the [Releases page](https://github.com/Pedro-ryan89/Task_Tracker_CLI/releases).
+---
 
-2. **Extract the Files:**
-   - Unzip the archive to a permanent location on your computer (e.g., `C:\Users\YourUser\Applications\Task_Tracker_CLI`).
+## Pré-requisitos
 
-3. **Run:**
-   - Navigate to the directory you extracted and use `task.bat` to run commands.
-   ```bash
-   cd C:\Users\YourUser\Applications\Task_Tracker_CLI
+- **Java JDK 8+** ([Download JDK](https://www.oracle.com/java/technologies/downloads/))  
+- **(Opcional) Git**, caso queira clonar o repositório  
+- **Terminal ou CMD/Powershell** para executar comandos
 
-   ./task
-   ./task add "My first task"
-   ```
+---
 
-4. **(Optional) Add to PATH:**
-   - To run `task` from anywhere, add the `Task_Tracker_CLI` directory to your system's PATH environment variable.
+## Instalação
 
-## For Developers
+### Linux 
 
-If you want to modify the source code:
-
-1. **Clone the repository:**
+1. Clone ou baixe o repositório:  
    ```bash
    git clone https://github.com/Pedro-ryan89/Task_Tracker_CLI.git
-
    cd Task_Tracker_CLI
    ```
+2. O script irá:
+   - Compilar o código Java
+   - Criar um diretório ~/.task-tracker/out com os .class compilados
+   - Criar um link simbólico ~/.local/bin/task para rodar o CLI de qualquer lugar
 
-2. **Compile the code:**
-   Run the `build.bat` script from the `Task_Tracker` directory to compile the source files:
-   ```bash
-   ./build.bat
-   ```
-
-3. **Run Task_Tracker:**
-   Run the `task.bat` for the compile files
-   ```bash
-   ./task.bat
-   ```
-
-4. **Usage for developers:** Add `./` on `task` command, like `./task`
-   ```bash
-   ./task
-   ```
-
-   ```bash
-   ./task add "Buy milk"
-   ```
-
-   ```bash
-   ./task list
-   ```
-   ...
-
-## Usage
-
-Use the `task` command followed by one of the following sub-commands:
-
-- `add <description>`: Adds a new task.
-  ```bash
-  task add "Buy milk"
-  ```
-
-- `list`: Lists all active tasks.
-  ```bash
-  task list
-  ```
-
-- `done <id>`: Marks a task as done.
-  ```bash
-  task done 3
-  ```
-
-- `update <id> <status>`: Updates a task's status. Available statuses are `todo`, `in_progress`, `done`.
-  ```bash
-  task update 3 in_progress
-  ```
-
-- `delete <id>`: Moves a task to the trash.
-  ```bash
-  task delete 3
-  ```
-
-- `deleted`: Lists tasks in the trash.
-  ```bash
-  task deleted
-  ```
-
-- `help`: Shows this help message.
+3. teste a instalação
   ```bash
   task help
   ```
+
+### Windows
+
+1. Baixe ou clone o repositorio:
+ ```Bash
+ git clone https://github.com/Pedro-ryan89/Task_Tracker_CLI.git
+ cd Task_Tracker_CLI
+```
+2. Execute o script de instalação
+```Bash
+ install\install.bat
+```
+
+(em ambos os casos o instalador ja posibilita a utilização em qualquer diretorio)
+
+### uso basico
+Após instalar, você pode usar o comando ```task``` seguido de sub-comandos:   
+
+| Comando                | Descrição                                         | Exemplo                     |
+| ---------------------- | ------------------------------------------------- | --------------------------- |
+| `add <descrição>`      | Adiciona uma nova tarefa                          | `task add "Estudar Java"`   |
+| `list`                 | Lista todas tarefas ativas                        | `task list`                 |
+| `done <id>`            | Marca a tarefa como concluída                     | `task done 3`               |
+| `update <id> <status>` | Atualiza o status (`todo`, `in_progress`, `done`) | `task update 3 in_progress` |
+| `delete <id>`          | Move a tarefa para a lixeira                      | `task delete 3`             |
+| `deleted`              | Lista tarefas na lixeira                          | `task deleted`              |
+| ` trash-clear`         | Esvazia a lixeira permanentemente                 | `task trash-clear`          |
+| `help`                 | Mostra a ajuda completa                           | `task help`                 |
+
+# Para Desenvolvedores
+
+1. Clone o repositorio:
+ ```Bash
+git clone https://github.com/Pedro-ryan89/Task_Tracker_CLI.git
+cd Task_Tracker_CLI
+```
+3. Compile o Codigo:
+```Bash
+./scripts/build.sh  # Linux
+build.bat           # Windows
+```
+5. Execute localmente:
+```Bash
+./task           # Linux
+task.bat         # Windows
+```
+6. Faça alterações em ```src/``` e teste antes de commitar.
+
+## Notas de Implementação
+- Persistência: as tarefas são salvas em ```tasks.json``` (ativas) e ```deleted_tasks.json``` (excluídas).
+- IDs: cada tarefa recebe um ID incremental único; IDs antigos são liberados apenas ao esvaziar a lixeira.
+#### Manutenção automática:
+   - Tarefas DONE são movidas para a lixeira automaticamente após 24 horas
+   - Tarefas na lixeira são removidas definitivamente após 7 dias
