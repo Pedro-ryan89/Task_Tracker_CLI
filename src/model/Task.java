@@ -1,3 +1,5 @@
+package model;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -24,14 +26,29 @@ public class Task {
         this.deletedAt = null;
     }
 
+    public int getId() {
+        return id;
+    }
 
-    public int getId() { return id; }
-    public String getDescription() { return description; }
-    public Status getStatus() { return status; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public LocalDateTime getDeletedAt() { return deletedAt; }
+    public String getDescription() {
+        return description;
+    }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
 
     public void setDescription(String description) {
         this.description = description;
@@ -48,10 +65,10 @@ public class Task {
     }
 
     private static String escapeJson(String s) {
-        if (s == null) return "";
+        if (s == null)
+            return "";
         return s.replace("\\", "\\").replace("\"", "\"");
     }
-
 
     public String toJson() {
         String json = "{"
@@ -67,7 +84,6 @@ public class Task {
 
         return json + "}";
     }
-
 
     public static Task fromJson(String json) {
         // This is a slightly more robust manual parser.
@@ -124,7 +140,6 @@ public class Task {
 
         return task;
     }
-
 
     @Override
     public String toString() {
