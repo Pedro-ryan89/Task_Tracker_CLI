@@ -52,7 +52,7 @@ Task Tracker CLI é uma ferramenta simples de linha de comando para gerenciar su
 
 3. teste a instalação
   ```bash
-      task help
+  task help
   ```
 
 ### Windows
