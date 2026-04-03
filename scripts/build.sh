@@ -1,38 +1,35 @@
 #!/bin/bash
+
 echo "Instalando Task Tracker CLI..."
 
-# cria pasta
-mkdir -p ~/.task-tracker
+# Diretórios
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SRC_DIR="$PROJECT_DIR/src"
+OUT_DIR="$PROJECT_DIR/out"
+BIN_DIR="$HOME/.local/bin"
+TASK_WRAPPER="$BIN_DIR/task"
 
-# copia arquivos do src e scripts, ignorando .git
-rsync -av --exclude='.git' ./ ~/.task-tracker/
+# Cria diretórios se não existirem
+mkdir -p "$OUT_DIR"
+mkdir -p "$BIN_DIR"
 
-@echo off
+# Compila todo o código Java
+echo "Compilando código Java..."
+javac -d "$OUT_DIR" $(find "$SRC_DIR" -name "*.java")
+if [ $? -ne 0 ]; then
+    echo "[ERROR] Falha na compilação."
+    exit 1
+fi
 
-mkdir out\production\Task_Tracker 2>nul
-
-dir /s /b src\*.java > sources.txt
-
+# Cria script wrapper
+echo "Criando script de execução..."
+cat > "$TASK_WRAPPER" << EOF
 #!/bin/bash
-set -e  # Para o script se algum comando falhar
+java -cp "$OUT_DIR" Main "\$@"
+EOF
 
-echo "Instalando Task Tracker CLI..."
-
-# --- Limpa build anterior ---
-rm -rf ~/.task-tracker/out
-mkdir -p ~/.task-tracker/out
-
-# --- Compila todos os arquivos .java ---
-javac -d ~/.task-tracker/out \
-    ~/.task-tracker/src/model/*.java \
-    ~/.task-tracker/src/repository/*.java \
-    ~/.task-tracker/src/service/*.java \
-    ~/.task-tracker/src/TaskManager.java \
-    ~/.task-tracker/src/Main.java
-
-# --- Cria link simbólico para execução ---
-mkdir -p ~/.local/bin
-ln -sf ~/.task-tracker/out/Main ~/.local/bin/task
+# Dá permissão de execução automaticamente
+chmod +x "$TASK_WRAPPER"
 
 echo "Instalação concluída!"
 echo "Use: task add \"Sua tarefa\""
