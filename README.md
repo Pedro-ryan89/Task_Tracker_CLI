@@ -92,12 +92,12 @@ cd Task_Tracker_CLI
 ```
 3. Compile o Codigo:
 ```Bash
- ./scripts/build.sh  # Linux/macOS
+./scripts/build.sh  # Linux
 build.bat           # Windows
 ```
 5. Execute localmente:
 ```Bash
-./task           # Linux/macOS
+./task           # Linux
 task.bat         # Windows
 ```
 6. Faça alterações em ```src/``` e teste antes de commitar.
