@@ -38,21 +38,22 @@ Task Tracker CLI é uma ferramenta simples de linha de comando para gerenciar su
 
 ## Instalação
 
-### Linux / macOS
+### Linux 
 
 1. Clone ou baixe o repositório:  
    ```bash
    git clone https://github.com/Pedro-ryan89/Task_Tracker_CLI.git
    cd Task_Tracker_CLI
-   
+   ```
 2. O script irá:
    - Compilar o código Java
    - Criar um diretório ~/.task-tracker/out com os .class compilados
    - Criar um link simbólico ~/.local/bin/task para rodar o CLI de qualquer lugar
 
 3. teste a instalação
-   ```Bash
+  ```bash
       task help
+  ```
 
 ### Windows
 
