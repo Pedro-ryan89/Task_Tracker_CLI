@@ -45,7 +45,7 @@ Task Tracker CLI é uma ferramenta simples de linha de comando para gerenciar su
    git clone https://github.com/Pedro-ryan89/Task_Tracker_CLI.git
    cd Task_Tracker_CLI
    
-2.O script irá:
+2. O script irá:
    - Compilar o código Java
    - Criar um diretório ~/.task-tracker/out com os .class compilados
    - Criar um link simbólico ~/.local/bin/task para rodar o CLI de qualquer lugar
@@ -56,7 +56,7 @@ Task Tracker CLI é uma ferramenta simples de linha de comando para gerenciar su
 
 ### Windows
 
-1.Baixe ou clone o repositorio:
+1. Baixe ou clone o repositorio:
  ```Bash
  git clone https://github.com/Pedro-ryan89/Task_Tracker_CLI.git
  cd Task_Tracker_CLI
@@ -99,7 +99,7 @@ build.bat           # Windows
 ./task           # Linux/macOS
 task.bat         # Windows
 ```
-7. Faça alterações em ```src/``` e teste antes de commitar.
+6. Faça alterações em ```src/``` e teste antes de commitar.
 
 ## Notas de Implementação
 - Persistência: as tarefas são salvas em ```tasks.json``` (ativas) e ```deleted_tasks.json``` (excluídas).
