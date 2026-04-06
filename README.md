@@ -9,7 +9,7 @@ Task Tracker CLI é uma ferramenta simples de linha de comando para gerenciar su
 - [Recursos](#recursos)
 - [Pré-requisitos](#pré-requisitos)
 - [Instalação](#instalação)
-  - [Linux / macOS](#linux--macos)
+  - [Linux](#Linux)
   - [Windows](#windows)
 - [uso basico](#uso-basico)
 - [Para Desenvolvedores](#para-desenvolvedores)
