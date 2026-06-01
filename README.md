@@ -1,7 +1,7 @@
 # Task Tracker CLI
 
 Task Tracker CLI é uma ferramenta simples de linha de comando para gerenciar suas tarefas, com suporte a **tarefas ativas**, **tarefas concluídas**, **lixeira** e funcionalidades de manutenção automática.
-
+feito como aprendizado com instruções da aba de projetos do roadmap.sh:https://roadmap.sh/projects/task-tracker
 ---
 
 ## Índice
